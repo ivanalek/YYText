@@ -425,6 +425,10 @@ static dispatch_queue_t YYLabelGetReleaseQueue() {
 }
 
 - (void)setFrame:(CGRect)frame {
+    if (isnan(frame.size.width) || isinf(frame.size.width)) {
+		frame = CGRectMake(frame.origin.x, frame.origin.y, 0, frame.size.height);
+	}
+
     CGSize oldSize = self.bounds.size;
     [super setFrame:frame];
     CGSize newSize = self.bounds.size;
