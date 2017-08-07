@@ -2418,9 +2418,14 @@ typedef NS_ENUM(NSUInteger, YYTextMoveDirection) {
 }
 
 - (void)setFrame:(CGRect)frame {
+	if (isnan(frame.size.width) || isinf(frame.size.width)) {
+		frame = CGRectMake(frame.origin.x, frame.origin.y, 0, frame.size.height);
+	}
+
     CGSize oldSize = self.bounds.size;
     [super setFrame:frame];
     CGSize newSize = self.bounds.size;
+
     BOOL changed = _innerContainer.isVerticalForm ? (oldSize.height != newSize.height) : (oldSize.width != newSize.width);
     if (changed) {
         [self _updateInnerContainerSize];
